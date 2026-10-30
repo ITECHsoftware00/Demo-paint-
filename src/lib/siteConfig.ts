@@ -48,7 +48,7 @@ export const siteConfig = {
     { display: "0816 122 0276", raw: "08161220276", intl: "2348161220276" },
     { display: "0708 572 2638", raw: "07085722638", intl: "2347085722638" },
   ],
-  whatsappNumber: "2347037522322",
+  whatsappNumber: "2348161220276",
   email: "adebisimutiu021@gmail.com",
 
   // Clear placeholders to be filled by client if needed:

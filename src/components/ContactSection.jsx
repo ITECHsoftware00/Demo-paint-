@@ -92,7 +92,7 @@ export default function ContactSection({ selectedService }) {
                 <span className="contact-row-label">WhatsApp</span>
                 <div className="contact-row-value">
                   <a
-                    href="https://wa.me/2347037522322?text=Hello%20DEMO%20Paint,%20I'd%20like%20to%20send%20photos%20for%20an%20instant%20quote"
+                    href="https://wa.me/2348161220276?text=Hello%20DEMO%20Paint,%20I'd%20like%20to%20send%20photos%20for%20an%20instant%20quote"
                     target="_blank"
                     rel="noopener noreferrer"
                   >

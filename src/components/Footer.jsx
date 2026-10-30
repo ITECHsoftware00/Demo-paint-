@@ -133,7 +133,7 @@ export default function Footer() {
               <p>Precision Wall & Floor Screeding</p>
               <div style={{ marginTop: "1.5rem" }}>
                 <a
-                  href="https://wa.me/2347037522322"
+                  href="https://wa.me/2348161220276"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn btn-outline-light"

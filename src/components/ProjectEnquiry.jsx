@@ -66,7 +66,7 @@ export default function ProjectEnquiry() {
               </a>
             </p>
             <a
-              href="https://wa.me/2347037522322"
+              href="https://wa.me/2348161220276"
               target="_blank"
               rel="noopener noreferrer"
               style={{ fontSize: "0.875rem", color: "#16a34a", textDecoration: "underline", display: "inline-block", marginTop: "0.25rem" }}
@@ -231,7 +231,7 @@ export default function ProjectEnquiry() {
 
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
                 <a
-                  href="https://wa.me/2347037522322"
+                  href="https://wa.me/2348161220276"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn btn-outline"

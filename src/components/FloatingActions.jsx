@@ -2,7 +2,7 @@ export default function FloatingActions() {
   return (
     <div className="floating-actions">
       <a
-        href="https://wa.me/2347037522322?text=Hello%20DEMO%20Paint,%20I'm%20contacting%20you%20from%20your%20website"
+        href="https://wa.me/2348161220276?text=Hello%20DEMO%20Paint,%20I'm%20contacting%20you%20from%20your%20website"
         target="_blank"
         rel="noopener noreferrer"
         className="floating-btn floating-whatsapp"

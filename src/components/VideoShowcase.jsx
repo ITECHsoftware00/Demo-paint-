@@ -43,7 +43,7 @@ export default function VideoShowcase() {
               </p>
             </div>
             <a
-              href="https://wa.me/2347037522322?text=Hello%20DEMO%20Paint,%20I%20watched%20your%20project%20video%20and%20want%20to%20discuss%20my%20building"
+              href="https://wa.me/2348161220276?text=Hello%20DEMO%20Paint,%20I%20watched%20your%20project%20video%20and%20want%20to%20discuss%20my%20building"
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-light"
