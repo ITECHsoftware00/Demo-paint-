@@ -17,7 +17,7 @@ export default function VideoShowcase() {
           note="Recorded on site"
         />
 
-        <div className="video-frame reveal">
+        <div className="video-frame wipe-reveal">
           <div className="video-container">
             <div className="video-badge">
               <span className="rec-dot" aria-hidden="true" />

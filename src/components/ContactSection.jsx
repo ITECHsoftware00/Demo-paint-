@@ -52,10 +52,10 @@ export default function ContactSection({ selectedService }) {
           note="Replies within 24 hours"
         />
 
-        <div className="contact-grid reveal">
+        <div className="contact-grid">
           <div>
             <div className="contact-rows">
-              <div className="contact-row">
+              <div className="contact-row reveal-item" data-stagger="0">
                 <span className="contact-row-label">Phone</span>
                 <div className="contact-row-value">
                   <a href="tel:07037522322">0703 752 2322</a>
@@ -69,7 +69,7 @@ export default function ContactSection({ selectedService }) {
                 </span>
               </div>
 
-              <div className="contact-row">
+              <div className="contact-row reveal-item" data-stagger="1">
                 <span className="contact-row-label">Email</span>
                 <div className="contact-row-value">
                   <a href="mailto:adebisimutiu021@gmail.com">
@@ -88,7 +88,7 @@ export default function ContactSection({ selectedService }) {
                 </span>
               </div>
 
-              <div className="contact-row">
+              <div className="contact-row reveal-item" data-stagger="2">
                 <span className="contact-row-label">WhatsApp</span>
                 <div className="contact-row-value">
                   <a
@@ -109,7 +109,7 @@ export default function ContactSection({ selectedService }) {
               </div>
             </div>
 
-            <p className="contact-note">
+            <p className="contact-note reveal-item" data-stagger="3">
               <strong>Prefer to talk it through?</strong> Call either line and
               you will reach the team that will actually run your project — not
               a call centre.
@@ -147,28 +147,32 @@ export default function ContactSection({ selectedService }) {
                 <div className="form-row">
                   <div className="form-group">
                     <label htmlFor="name">Your name</label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      required
-                      placeholder="e.g. Adebisi Mutiu"
-                      value={formData.name}
-                      onChange={handleChange}
-                    />
+                    <div className="field-wrap">
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        required
+                        placeholder="e.g. Adebisi Mutiu"
+                        value={formData.name}
+                        onChange={handleChange}
+                      />
+                    </div>
                   </div>
 
                   <div className="form-group">
                     <label htmlFor="phone">Phone number</label>
-                    <input
-                      type="tel"
-                      id="phone"
-                      name="phone"
-                      required
-                      placeholder="e.g. 0703 752 2322"
-                      value={formData.phone}
-                      onChange={handleChange}
-                    />
+                    <div className="field-wrap">
+                      <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        required
+                        placeholder="e.g. 0703 752 2322"
+                        value={formData.phone}
+                        onChange={handleChange}
+                      />
+                    </div>
                   </div>
                 </div>
 

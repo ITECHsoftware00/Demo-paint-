@@ -1,135 +1,159 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Arrow from "./Arrow";
-import ThemeToggle from "./ThemeToggle";
-
-const NAV_ITEMS = [
-  { id: "home", href: "#home", label: "Home" },
-  { id: "services", href: "#services", label: "Services" },
-  { id: "transformation", href: "#transformation", label: "Before / After" },
-  { id: "gallery", href: "#gallery", label: "Work" },
-  { id: "video", href: "#video", label: "Film" },
-  { id: "contact", href: "#contact", label: "Contact" },
-];
 
 export default function Navbar() {
+  const [timeStr, setTimeStr] = useState("09:39:56 Gold Coast, AU");
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [active, setActive] = useState("home");
 
+  // Live real-time studio clock (matching BCG Building Design Gold Coast AU format)
   useEffect(() => {
-    const sections = NAV_ITEMS.map((item) =>
-      document.getElementById(item.id)
-    ).filter(Boolean);
-    if (!sections.length) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setActive(entry.target.id);
+    const updateTime = () => {
+      try {
+        const now = new Date();
+        const formatted = now.toLocaleTimeString("en-AU", {
+          timeZone: "Australia/Brisbane",
+          hour12: false,
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
         });
-      },
-      { rootMargin: "-45% 0px -50% 0px", threshold: 0 }
-    );
-
-    sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
+        setTimeStr(`${formatted} Gold Coast, AU`);
+      } catch {
+        setTimeStr("09:39:56 Gold Coast, AU");
+      }
+    };
+    updateTime();
+    const timer = setInterval(updateTime, 1000);
+    return () => clearInterval(timer);
   }, []);
 
-  useEffect(() => {
-    document.body.style.overflow = mobileOpen ? "hidden" : "";
-    const onKeyDown = (event) => {
-      if (event.key === "Escape") setMobileOpen(false);
-    };
-    window.addEventListener("keydown", onKeyDown);
-    return () => {
-      document.body.style.overflow = "";
-      window.removeEventListener("keydown", onKeyDown);
-    };
-  }, [mobileOpen]);
-
-  const closeMobile = () => setMobileOpen(false);
+  const handleNavClick = (e, id) => {
+    e.preventDefault();
+    setMobileOpen(false);
+    const element = document.getElementById(id);
+    if (element) {
+      const topOffset = element.getBoundingClientRect().top + window.scrollY - 30;
+      window.scrollTo({ top: topOffset, behavior: "smooth" });
+    }
+  };
 
   return (
     <>
-      <header className="navbar">
-        <div className="nav-inner">
-          <a href="#home" className="brand" onClick={closeMobile}>
-            <img
-              src="/assets/images/demo-paint-logo.png"
-              alt="DEMO PAINT"
-              className="brand-logo"
-              style={{ height: "40px", width: "auto" }}
-            />
-          </a>
-
-          <nav className="nav-links" aria-label="Primary">
-            {NAV_ITEMS.map((item) => (
+      <header className="navbar-bcg">
+        <div className="container">
+          <div className="navbar-bcg-inner">
+            <div className="navbar-bcg-grid">
+              {/* Col 1: BCG Logo (left) */}
               <a
-                key={item.id}
-                href={item.href}
-                className={`nav-link ${active === item.id ? "active" : ""}`}
+                href="#home"
+                onClick={(e) => handleNavClick(e, "home")}
+                className="bcg-brand"
               >
-                {item.label}
+                <span>BCG</span>
+                <sup>®</sup>
               </a>
-            ))}
-          </nav>
 
-          <div className="nav-actions">
-            <ThemeToggle />
-            <button
-              type="button"
-              className={`mobile-toggle ${mobileOpen ? "open" : ""}`}
-              onClick={() => setMobileOpen((open) => !open)}
-              aria-label={mobileOpen ? "Close menu" : "Open menu"}
-              aria-expanded={mobileOpen}
-              aria-controls="mobile-menu"
-            >
-              <span />
-              <span />
-              <span />
-            </button>
+              {/* Col 2: Live Clock (left-center) */}
+              <div className="bcg-clock">
+                <span>{timeStr}</span>
+              </div>
+
+              {/* Col 3: Menu (center-right) */}
+              <nav className="bcg-nav-links">
+                <a
+                  href="#studio"
+                  onClick={(e) => handleNavClick(e, "studio")}
+                  className="bcg-nav-link"
+                >
+                  Studio
+                </a>
+                <a
+                  href="#approach"
+                  onClick={(e) => handleNavClick(e, "approach")}
+                  className="bcg-nav-link"
+                >
+                  Process
+                </a>
+                <a
+                  href="#works"
+                  onClick={(e) => handleNavClick(e, "works")}
+                  className="bcg-nav-link"
+                >
+                  Projects
+                </a>
+              </nav>
+
+              {/* Col 4: Project Enquiry (right) */}
+              <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+                <a
+                  href="#enquiry"
+                  onClick={(e) => handleNavClick(e, "enquiry")}
+                  className="bcg-enquiry-link"
+                >
+                  Project Enquiry
+                </a>
+
+                {/* Mobile Menu Toggle */}
+                <button
+                  className="mobile-nav-toggle"
+                  onClick={() => setMobileOpen(true)}
+                  aria-label="Toggle navigation menu"
+                >
+                  <span />
+                  <span />
+                  <span />
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </header>
 
-      {mobileOpen && (
-        <>
-          <div className="drawer-backdrop" onClick={closeMobile} aria-hidden="true" />
-          <div className="mobile-drawer" id="mobile-menu">
-            <nav className="mobile-drawer-links" aria-label="Mobile">
-              {NAV_ITEMS.map((item, index) => (
-                <a
-                  key={item.id}
-                  href={item.href}
-                  className="mobile-link"
-                  onClick={closeMobile}
-                >
-                  {item.label}
-                  <span>{String(index + 1).padStart(2, "0")}</span>
-                </a>
-              ))}
-            </nav>
-            <div className="mobile-drawer-footer">
-              <a href="tel:07037522322">0703 752 2322</a>
-              <a href="tel:08161220276">0816 122 0276</a>
-              <a href="mailto:adebisimutiu021@gmail.com">
-                adebisimutiu021@gmail.com
-              </a>
-              <a
-                href="https://wa.me/2347037522322"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-dark"
-                onClick={closeMobile}
-              >
-                Chat on WhatsApp
-                <Arrow size={12} />
-              </a>
-            </div>
-          </div>
-        </>
-      )}
+      {/* Mobile Drawer */}
+      <div className={`mobile-drawer ${mobileOpen ? "open" : ""}`}>
+        <button
+          className="mobile-drawer-close"
+          onClick={() => setMobileOpen(false)}
+          aria-label="Close menu"
+        >
+          ✕
+        </button>
+        <div style={{ marginBottom: "1rem" }}>
+          <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.875rem", color: "var(--neutral--gray-subtle)" }}>
+            {timeStr}
+          </span>
+        </div>
+        <a
+          href="#studio"
+          onClick={(e) => handleNavClick(e, "studio")}
+          className="mobile-nav-link"
+        >
+          Studio
+        </a>
+        <a
+          href="#approach"
+          onClick={(e) => handleNavClick(e, "approach")}
+          className="mobile-nav-link"
+        >
+          Process
+        </a>
+        <a
+          href="#works"
+          onClick={(e) => handleNavClick(e, "works")}
+          className="mobile-nav-link"
+        >
+          Projects
+        </a>
+        <a
+          href="#enquiry"
+          onClick={(e) => handleNavClick(e, "enquiry")}
+          className="btn btn-primary"
+          style={{ marginTop: "1rem" }}
+        >
+          Project Enquiry
+        </a>
+      </div>
     </>
   );
 }

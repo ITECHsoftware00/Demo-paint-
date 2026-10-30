@@ -1,65 +1,39 @@
-"use client";
-
-import { useState, useEffect } from "react";
-import Navbar from "../components/Navbar";
-import Hero from "../components/Hero";
-import Partners from "../components/Partners";
-import Services from "../components/Services";
-import FeaturedProject from "../components/FeaturedProject";
-import Gallery from "../components/Gallery";
-import VideoShowcase from "../components/VideoShowcase";
-import CTABand from "../components/CTABand";
-import ContactSection from "../components/ContactSection";
-import Footer from "../components/Footer";
-import FloatingActions from "../components/FloatingActions";
+import SiteHeader from "../components/site/SiteHeader";
+import Hero from "../components/site/Hero";
+import Studio from "../components/site/Studio";
+import StudioBand from "../components/site/StudioBand";
+import Work from "../components/site/Work";
+import SiteFootage from "../components/site/SiteFootage";
+import Approach from "../components/site/Approach";
+import Finishes from "../components/site/Finishes";
+import Partners from "../components/site/Partners";
+import ClientWords from "../components/site/ClientWords";
+import Contact from "../components/site/Contact";
+import SiteFooter from "../components/site/SiteFooter";
 
 export default function Home() {
-  const [selectedService, setSelectedService] = useState("");
-
-  const handleSelectService = (serviceName) => {
-    setSelectedService(serviceName);
-    const contactElem = document.getElementById("contact");
-    if (contactElem) {
-      contactElem.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  // Scroll-reveal animation
-  useEffect(() => {
-    const reveals = document.querySelectorAll(".reveal");
-    if (!reveals.length) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
-    );
-
-    reveals.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <div className="page-wrapper">
-      <Navbar />
+    <>
+      <a
+        href="#studio"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-espresso focus:px-4 focus:py-2 focus:text-[13px] focus:text-cream"
+      >
+        Skip to content
+      </a>
+      <SiteHeader />
       <main>
         <Hero />
+        <Studio />
+        <StudioBand />
+        <Work />
+        <SiteFootage />
+        <Approach />
+        <Finishes />
         <Partners />
-        <Services onSelectService={handleSelectService} />
-        <FeaturedProject />
-        <Gallery />
-        <VideoShowcase />
-        <CTABand />
-        <ContactSection selectedService={selectedService} />
+        <ClientWords />
+        <Contact />
       </main>
-      <Footer />
-      <FloatingActions />
-    </div>
+      <SiteFooter />
+    </>
   );
 }

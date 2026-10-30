@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import Arrow from "./Arrow";
+import MediaVideo from "./ui/MediaVideo";
+import { clips } from "../lib/media";
 
 const projects = [
   {
@@ -10,48 +12,47 @@ const projects = [
     title: "Luxury Residential Duplex",
     description:
       "Complete interior and exterior transformation with precision wall screeding, anti-fungal weather-shield primer and a double satin topcoat.",
-    image: "/assets/images/duplex-finished.jpeg",
-    beforeImage: "/assets/images/duplex-prep.jpeg",
+    clip: clips.showcase,
   },
   {
     id: 2,
     tag: "Ceiling & POP",
-    title: "Architectural POP Ceiling",
+    title: "Illuminated Feature Ceiling",
     description:
-      "Multi-tiered gypsum false ceiling with integrated concealed LED cove troughs and laser-level cornice alignment.",
-    image: "/assets/images/pop-ceiling.jpg",
+      "Shimmer Venetian plaster wall rising into a multi-tiered recessed tray ceiling with concealed cove lighting.",
+    clip: clips.ceilingShimmer,
   },
   {
     id: 3,
     tag: "Wall finishes",
-    title: "Geometric Feature Wall",
+    title: "3D Carved Light-Box Wall",
     description:
-      "Sculpted acoustic wall panels delivering dramatic dimensional shadow play and a boutique lounge aesthetic.",
-    image: "/assets/images/wall-panels-3d.jpg",
+      "Hand-sculpted relief panels with backlit niches and carved cornice, delivering dramatic dimensional shadow play.",
+    clip: clips.wall3dLed,
   },
   {
     id: 4,
     tag: "Wall finishes",
-    title: "Italian Venetian Stucco",
+    title: "Marble-Vein Venetian Stucco",
     description:
-      "Hand-burnished venetian plaster with delicate metallic undertones, polished to a mirror-smooth marble texture.",
-    image: "/assets/images/stucco-texture.jpg",
+      "Hand-burnished plaster worked into a soft grey marble veining, polished to a mirror-smooth stone-like depth.",
+    clip: clips.marbleVein,
   },
   {
     id: 5,
-    tag: "Residential",
-    title: "Exterior Estate Facade",
+    tag: "Wall finishes",
+    title: "Gold-Vein Marble Wall",
     description:
-      "Multi-storey exterior coating in high-solids elastomeric paint for complete waterproofing and UV protection.",
-    image: "/assets/images/exterior-luxury-peach.jpeg",
+      "Hand-painted marble-effect plaster traced with gilded veining and sealed under a high-gloss protective topcoat.",
+    clip: clips.goldVein,
   },
   {
     id: 6,
-    tag: "Commercial",
-    title: "Designer Metallic Wallpaper",
+    tag: "On site",
+    title: "Hand-Applied Marble Effect",
     description:
-      "Textured vinyl wallpaper with foil geometric accents, hung with zero visible seams and a moisture-resistant adhesive.",
-    image: "/assets/images/luxury-wallpaper.jpg",
+      "Our crew working a marble-effect base into live veining on site — the craft behind the finished surface.",
+    clip: clips.crewMarble,
   },
 ];
 
@@ -62,9 +63,16 @@ export default function Gallery() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [sliderPos, setSliderPos] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
+  const [hoveredId, setHoveredId] = useState(null);
+  const [reduced, setReduced] = useState(false);
   const scrollRef = useRef(null);
   const baContainerRef = useRef(null);
   const active = activeIndex === null ? null : projects[activeIndex];
+
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReduced(mq.matches);
+  }, []);
 
   // Before/After slider logic
   const updateBAPosition = useCallback((clientX) => {
@@ -172,15 +180,15 @@ export default function Gallery() {
         {/* Header */}
         <div className="our-work-header">
           <div className="our-work-header-left">
-            <span className="our-work-eyebrow">Selected Work</span>
-            <h2 className="our-work-title">
+            <span className="our-work-eyebrow reveal-item" data-stagger="0">Selected Work</span>
+            <h2 className="our-work-title reveal-item" data-stagger="1">
               Projects that
               <br />
               define craft.
             </h2>
           </div>
           <div className="our-work-header-right">
-            <p className="our-work-desc">
+            <p className="our-work-desc reveal-item" data-stagger="2">
               A curated selection of residential and commercial projects
               showcasing precision finishing, surface preparation, and
               architectural detailing.
@@ -189,7 +197,7 @@ export default function Gallery() {
         </div>
 
         {/* Before/After Featured Showcase */}
-        <div className="ba-showcase">
+        <div className="ba-showcase reveal-item" data-stagger="3">
           <div className="ba-showcase-header">
             <span className="our-work-eyebrow">Featured Transformation</span>
             <h3 className="ba-showcase-title">
@@ -274,7 +282,7 @@ export default function Gallery() {
         </div>
 
         {/* Horizontal scroll container */}
-        <div className="our-work-scroll-header">
+        <div className="our-work-scroll-header reveal-item" data-stagger="4">
           <span className="our-work-eyebrow">More Projects</span>
           <div className="our-work-nav">
             <button
@@ -315,15 +323,21 @@ export default function Gallery() {
             <button
               key={project.id}
               type="button"
-              className="our-work-card"
+              className="our-work-card reveal-item"
+              data-stagger={index % 3}
               onClick={() => setActiveIndex(index)}
+              onMouseEnter={() => setHoveredId(project.id)}
+              onMouseLeave={() =>
+                setHoveredId((h) => (h === project.id ? null : h))
+              }
               aria-label={`View ${project.title}`}
             >
               <div className="our-work-card-media">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  loading="lazy"
+                <MediaVideo
+                  clip={project.clip}
+                  mode="always"
+                  active={hoveredId === project.id}
+                  fit="cover"
                 />
                 <div className="our-work-card-overlay">
                   <span className="our-work-card-overlay-text">View Project</span>
@@ -376,10 +390,15 @@ export default function Gallery() {
               </svg>
             </button>
 
-            <img
+            <video
               className="lightbox-media"
-              src={active.image}
-              alt={active.title}
+              src={active.clip.src}
+              poster={active.clip.poster}
+              controls
+              autoPlay={!reduced}
+              playsInline
+              preload="metadata"
+              aria-label={active.title}
             />
 
             <figcaption className="lightbox-caption">

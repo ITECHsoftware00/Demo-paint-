@@ -1,154 +1,187 @@
-import Arrow from "./Arrow";
+"use client";
 
-const servicesData = [
+import { useState } from "react";
+import Arrow from "./Arrow";
+import MediaVideo from "./ui/MediaVideo";
+import { clips } from "../lib/media";
+
+const FINISHES_DATA = [
   {
-    id: "painting",
-    title: "House Painting",
-    badge: "Interior & exterior",
-    image: "/assets/images/exterior-luxury-peach.jpeg",
+    id: "venetian",
+    name: "Handcrafted Venetian Plaster",
+    tag: "Artisanal Finish",
+    subtitle: "Slaked lime, marble dust, and hand-burnished minerals",
     description:
-      "Comprehensive interior & exterior painting with ultra-durable, weather-resistant paints engineered for lasting beauty.",
-    features: [
-      "Digital colour matching & consultation",
-      "Surface sanding, priming & sealing",
-      "Washable, anti-fungal exterior coats",
+      "Formulated from aged Italian slaked lime and crushed Carrara marble, Venetian plaster is applied in multiple micro-thin layers and burnished by hand. It breathes naturally, resists mould, and yields a soft stone-like luminosity that shifts subtly with morning and evening light.",
+    clip: clips.marbleVein,
+    specs: [
+      { label: "Material Base", value: "Slaked Lime & Micro-Fine Marble Dust" },
+      { label: "Sheen Options", value: "Matte Stone, Satin Velvety, Mirror Burnished" },
+      { label: "Best Suited For", value: "Entry Foyers, Fireplace Surrounds, Master Suites" },
+      { label: "Maintenance", value: "Washable with natural soap, zero VOCs" },
+      { label: "Longevity", value: "15+ years; cures harder over time through carbonation" },
     ],
-    span: "wide",
   },
   {
-    id: "ceiling",
-    title: "Ceiling & POP",
-    badge: "Ceilings",
-    image: "/assets/images/pop-ceiling.jpg",
+    id: "paintwork",
+    name: "Architectural Interior & Exterior Paint",
+    tag: "Core Finishing",
+    subtitle: "Precision edge lines, mineral pigments & washable weather-shields",
     description:
-      "Modern architectural false ceilings, plaster of Paris mouldings, and custom recessed LED illumination profiles.",
-    features: [
-      "Geometric & curvilinear POP designs",
-      "Integrated LED cove light troughs",
-      "Moisture-proof ceiling plastering",
+      "Beyond standard roll-and-brush painting, our architectural painting process begins with machine dustless sanding, high-build acrylic primers, and laser-guided cutting. We specify washable, anti-fungal formulations engineered to withstand coastal humidity and intense UV exposure.",
+    clip: clips.interiorPrep,
+    specs: [
+      { label: "Formulation", value: "Low-VOC Pure Mineral & Elastomeric Polymers" },
+      { label: "Surface Prep", value: "Level 5 Drywall Finish & Dustless Sanding" },
+      { label: "Sheen Spectrum", value: "Ultra-Flat Chalk, Low-Sheen Eggshell, Semi-Gloss" },
+      { label: "Warranty", value: "10-Year Weather & Adhesion Guarantee" },
+      { label: "Turnaround", value: "Phased room-by-room or rapid whole-house execution" },
     ],
-    span: "tall",
   },
   {
-    id: "3d-walls",
-    title: "3D Wall Panels",
-    badge: "Feature walls",
-    image: "/assets/images/wall-panels-3d.jpg",
+    id: "ceilings",
+    name: "Architectural Ceilings & POP Profiles",
+    tag: "Structural Design",
+    subtitle: "Recessed light coves, acoustic dampening, and plaster mouldings",
     description:
-      "Sculpted geometric wall panels that transform plain interior walls into bold, modern architectural focal points.",
-    features: [
-      "Eco-friendly bamboo fibre panels",
-      "Seamless joint sealing & spray finish",
-      "Custom diamond & wave motifs",
+      "Ceilings are often called the 'fifth wall' in architectural design. We craft seamless Plaster of Paris false ceilings featuring knife-edge perimeter shadow lines, recessed LED lighting troughs, and acoustic mineral wool insulation to refine sound dampening in open-plan spaces.",
+    clip: clips.ceilingShimmer,
+    specs: [
+      { label: "Construction", value: "Light-Gauge Zinc Framework & Fibre-Reinforced Gypsum" },
+      { label: "Integrated Lighting", value: "Concealed 45° LED coves & magnetic track channels" },
+      { label: "Acoustics", value: "Up to 0.75 NRC sound absorption rating" },
+      { label: "Moisture Resistance", value: "Hydrophobic plaster boards for humid zones" },
+      { label: "Design Styles", value: "Floating trays, stepped bulkheads, curved reveals" },
     ],
-    span: "normal",
   },
   {
-    id: "stucco",
-    title: "Stucco & Plaster",
-    badge: "Textured finishes",
-    image: "/assets/images/stucco-texture.jpg",
+    id: "panels",
+    name: "3D Carved & Textured Feature Walls",
+    tag: "Signature Dimensionality",
+    subtitle: "Sculpted geometric relief with architectural grazing illumination",
     description:
-      "Handcrafted Italian-style stucco finishes and venetian plastering delivering a deep, opulent marble-like sheen.",
-    features: [
-      "Venetian marble & metallic stucco",
-      "Durable, breathable surface coat",
-      "Scratch-resistant velvet textures",
+      "Dimensional feature walls designed to create dramatic light-and-shadow play across feature lounges, dining areas, and executive offices. Each modular tile is precision joined, screeded flat at the seams, and coated in monolithic stone or satin finishes.",
+    clip: clips.wall3dLed,
+    specs: [
+      { label: "Core Substrate", value: "High-Density Bamboo Fibre & Cast Mineral Polymer" },
+      { label: "Joinery", value: "Seamless continuous joint blending (zero visible seams)" },
+      { label: "Finish Compatibility", value: "Metallic lustre, velvety matte, concrete texture" },
+      { label: "Fire Rating", value: "Class A / Non-combustible architectural certification" },
+      { label: "Customization", value: "Diamond lattice, fluted reeding, organic waves" },
     ],
-    span: "normal",
-  },
-  {
-    id: "wallpaper",
-    title: "Wallpaper & Accent Walls",
-    badge: "Wallcoverings",
-    image: "/assets/images/luxury-wallpaper.jpg",
-    description:
-      "Premium designer wallpaper installations for residential lounges, corporate boardrooms, and luxury master suites.",
-    features: [
-      "Embossed textures & foil accents",
-      "Precision laser-level alignment",
-      "Zero-bubble, stain-resistant adhesive",
-    ],
-    span: "tall",
   },
   {
     id: "screeding",
-    title: "Screeding",
-    badge: "Surface preparation",
-    image: "/assets/images/screeding-before.jpeg",
+    name: "Monolithic Screeding & Substrate Prep",
+    tag: "Foundational Craft",
+    subtitle: "Laser-calibrated leveling, anti-crack membranes, and mirror smoothness",
     description:
-      "Heavy-duty precision screeding and leveling for floors and walls before paint, tiles, or decorative overlays.",
-    features: [
-      "Laser-straight wall & floor leveling",
-      "High-tensile bonding compound",
-      "Rapid-cure formula for swift handover",
+      "A flawless topcoat is impossible without an uncompromising substrate. We laser-calibrate existing masonry and drywall to within 1mm per 3 metres, correcting uneven plaster, dampness intrusion, and hairline fissures with epoxy-reinforced screed compounds.",
+    clip: clips.crewMarble,
+    specs: [
+      { label: "Compound", value: "Polymer-Modified Self-Smoothing Cementitious Screed" },
+      { label: "Tolerance", value: "Level 5 Architectural Flatness (±1mm / 3m)" },
+      { label: "Reinforcement", value: "Alkali-resistant glass fibre mesh interlayer" },
+      { label: "Drying Time", value: "Foot traffic in 12 hours, recoat ready in 24 hours" },
+      { label: "Application", value: "Floors, walls, outdoor terraces, wet-room substrates" },
     ],
-    span: "wide",
   },
 ];
 
-export default function Services({ onSelectService }) {
+export default function Services() {
+  const [activeTab, setActiveTab] = useState(FINISHES_DATA[0].id);
+  const current = FINISHES_DATA.find((f) => f.id === activeTab) || FINISHES_DATA[0];
+
   return (
-    <section className="services-section" id="services">
+    <section className="section section-beige" id="finishes">
       <div className="container">
-        {/* Section header */}
-        <div className="svc-header reveal">
-          <div className="svc-header-main">
-            <span className="svc-eyebrow label-style">02 — Services</span>
-            <h2 className="svc-title">
-              Six disciplines, <em>one standard.</em>
-            </h2>
-          </div>
-          <div className="svc-header-aside">
-            <p className="svc-desc">
-              From surface prep to final coat, every trade is handled by
-              specialists who treat your home like their own.
-            </p>
-          </div>
+        <p className="mono-tag" style={{ marginBottom: "1rem" }}>
+          03 / Finishes & Materials
+        </p>
+
+        <div style={{ maxWidth: "860px", marginBottom: "3rem" }}>
+          <h2>Tactile materials specified with architectural intent.</h2>
+          <p className="p-lead" style={{ color: "var(--neutral--charcoal)", marginTop: "1rem" }}>
+            Every surface material performs differently under light, traffic, and humidity.
+            Explore our curated finish specifications below to understand the science, texture,
+            and durability of our craft.
+          </p>
         </div>
 
-        {/* Bento grid */}
-        <div className="svc-bento reveal">
-          {servicesData.map((service, index) => (
-            <article
-              key={service.id}
-              className={`svc-card svc-card--${service.span}`}
+        {/* Tab Selection Bar */}
+        <div className="materials-selector-bar">
+          {FINISHES_DATA.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => setActiveTab(item.id)}
+              className={`material-tab-btn ${activeTab === item.id ? "active" : ""}`}
             >
-              <div className="svc-card-bg">
-                <img
-                  src={service.image}
-                  alt={service.title}
-                  loading="lazy"
-                />
-              </div>
-              <div className="svc-card-overlay" />
-              <div className="svc-card-content">
-                <div className="svc-card-top">
-                  <span className="svc-card-index">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <span className="svc-card-badge">{service.badge}</span>
-                </div>
-                <h3 className="svc-card-title">{service.title}</h3>
-                <p className="svc-card-desc">{service.description}</p>
-                <ul className="svc-card-features">
-                  {service.features.map((feat) => (
-                    <li key={feat}>{feat}</li>
-                  ))}
-                </ul>
-                <a
-                  href="#contact"
-                  className="svc-card-cta"
-                  onClick={() =>
-                    onSelectService && onSelectService(service.title)
-                  }
-                >
-                  <span>Request this service</span>
-                  <Arrow size={11} />
-                </a>
-              </div>
-            </article>
+              {item.name}
+            </button>
           ))}
+        </div>
+
+        {/* Detailed Spec Panel */}
+        <div className="material-detail-panel">
+          <div>
+            <span className="mono-tag" style={{ color: "var(--terracota)" }}>
+              {current.tag}
+            </span>
+            <h3 style={{ marginTop: "0.5rem", marginBottom: "0.5rem" }}>
+              {current.name}
+            </h3>
+            <p style={{ fontStyle: "italic", color: "var(--ink-secondary)", marginBottom: "1.25rem" }}>
+              {current.subtitle}
+            </p>
+            <p style={{ marginBottom: "2rem", lineHeight: "1.7" }}>
+              {current.description}
+            </p>
+
+            {/* Architectural Specifications Table */}
+            <div style={{ marginBottom: "2rem" }}>
+              {current.specs.map((s, i) => (
+                <div key={i} className="spec-row">
+                  <span className="spec-row-label">{s.label}</span>
+                  <span className="spec-row-val">{s.value}</span>
+                </div>
+              ))}
+            </div>
+
+            <a
+              href="#enquiry"
+              className="btn btn-primary"
+              style={{ fontSize: "0.875rem" }}
+            >
+              Enquire About This Finish
+              <Arrow size={14} />
+            </a>
+          </div>
+
+          {/* Visual Showcase for this finish */}
+          <div style={{ width: "100%", height: "420px", borderRadius: "4px", overflow: "hidden", position: "relative" }}>
+            <MediaVideo
+              clip={current.clip}
+              mode="always"
+              active={true}
+              fit="cover"
+            />
+            <div
+              style={{
+                position: "absolute",
+                bottom: "1rem",
+                left: "1rem",
+                backgroundColor: "rgba(27, 26, 24, 0.82)",
+                backdropFilter: "blur(6px)",
+                color: "#fffdf8",
+                padding: "0.4rem 0.85rem",
+                borderRadius: "9999px",
+                fontSize: "0.75rem",
+                fontFamily: "var(--font-mono)",
+              }}
+            >
+              Craft Sample — {current.name}
+            </div>
+          </div>
         </div>
       </div>
     </section>
