@@ -78,8 +78,8 @@ export default function SiteFooter() {
       </Reveal>
 
       <div className="mt-16 overflow-hidden md:mt-20">
-        <span className="wordmark translate-y-[0.12em] select-none text-[clamp(4.5rem,21vw,20rem)] text-espresso">
-          DEMO
+        <span className="wordmark translate-y-[0.12em] select-none whitespace-nowrap text-[clamp(2.75rem,15vw,14rem)] text-espresso">
+          DEMO <span className="text-[#166534]">PAINT</span>
         </span>
       </div>
 
