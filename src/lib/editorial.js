@@ -54,16 +54,16 @@ export const band = {
 
 export const footage = {
   label: "Close up",
-  aside: "Gilded feature wall · Osogbo",
-  claim: "Gold leaf, dragged through wet plaster.",
-  body: "One pass across a finished gilded wall. The leaf is laid into wet plaster and then pulled while it is still soft, so the veins split wherever the trowel turns.",
+  aside: "Travertino feature wall · Osogbo",
+  claim: "Travertino, dragged through the wall in long passes.",
+  body: "One pass across a finished Travertino wall. The stone-look plaster is built in thin layers, then dragged while it is still soft so the veining splits wherever the trowel turns.",
   meta: "0:07 · muted · looping",
   caption:
-    "Raking light down a gilded plaster wall, filmed on the day it was finished.",
+    "Raking light down a Travertino wall, filmed on the day it was finished.",
   video: "/assets/videos/project-showcase.mp4",
   poster: "/assets/images/gilded-wall.jpg",
   videoAlt:
-    "Close pass over a gilded plaster wall, gold veins running through a cream ground",
+    "Close pass over a Travertino plaster wall, pale gold veining running through a cream ground",
 };
 
 export const work = {
@@ -79,21 +79,21 @@ export const work = {
         "Full exterior recoat, interior emulsion and enamel joinery across a four-bedroom duplex.",
     },
     {
-      title: "Gilded Feature Wall",
-      category: "Wall finishes",
+      title: "Travertino Feature Wall",
+      category: "Travertino",
       image: "/assets/images/gilded-wall.jpg",
-      alt: "Gilded plaster wall with gold veins catching raking light across a cream ground",
+      alt: "Travertino plaster wall with pale gold veining catching raking light across a cream ground",
       detail:
-        "Hand-traced gold veining over a matte plaster ground for a master suite.",
+        "Travertino built in thin organic layers, dragged into warm veining for a feature wall.",
     },
     {
-      title: "Marble Living Room",
+      title: "Stucco Living Room",
       category: "Stucco",
       image: "/assets/images/feature-wall-marble.jpg",
       clip: clips.featureGold,
-      alt: "Marble-effect wall with brown and gold veining beside a dark timber column",
+      alt: "Stucco wall with brown and gold veining beside a dark timber column",
       detail:
-        "Marble-effect plaster burnished to a stone sheen in a double-height living room.",
+        "Hand-troweled stucco burnished to a stone sheen in a double-height living room.",
     },
     {
       title: "Sculpted Wall Panels",
@@ -105,12 +105,13 @@ export const work = {
         "Carved relief panels and a concealed LED cove finished in the same matte white.",
     },
     {
-      title: "Shimmer Ceiling",
-      category: "Ceilings",
+      title: "Travertino Wall",
+      category: "Travertino",
       image: "/assets/images/plaster-shimmer.jpg",
-      alt: "Textured pearl plaster ceiling catching low light across a wide room",
+      clip: clips.ceilingShimmer,
+      alt: "Full-height Travertino wall with troweled pale cream and silver veining under a set-back ceiling",
       detail:
-        "Pearl plaster ceiling with a hand-worked texture that catches light as you move.",
+        "Troweled Travertino in pale cream and silver, worked in long drags that catch the light as you move.",
     },
     {
       title: "Perimeter Wall",

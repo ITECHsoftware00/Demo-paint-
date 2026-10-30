@@ -27,7 +27,7 @@ export const clips = {
     src: "/assets/videos/reel-ceiling-shimmer.mp4",
     poster: "/assets/images/plaster-shimmer.jpg",
     orientation: "portrait",
-    caption: "Shimmer Venetian plaster rising into a recessed tray ceiling",
+    caption: "Troweled Travertino wall in pale cream and silver, worked in long drags",
   },
   marbleVein: {
     id: "marbleVein",
@@ -48,7 +48,7 @@ export const clips = {
     src: "/assets/videos/reel-feature-gold.mp4",
     poster: "/assets/images/feature-wall-marble.jpg",
     orientation: "portrait",
-    caption: "Full-height gold-and-brown marble feature wall",
+    caption: "Full-height gold-and-brown stucco feature wall",
   },
   goldVein: {
     id: "goldVein",
